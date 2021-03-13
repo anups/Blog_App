@@ -1,0 +1,17 @@
+FROM ubuntu
+FROM python:3
+MAINTAINER "Anup Kumar Shrivastaw"
+LABEL version="0.0.1"
+LABEL maintainer="anupks2009@gmail.com"
+RUN apt-get update
+RUN apt-get install -y tar git curl nano wget dialog net-tools build-essential
+RUN apt-get install -y sqlite3 libsqlite3-dev
+ENV PYTHONUNBUFFERED 1
+RUN pip install virtualenv
+# RUN mkdir /code
+WORKDIR /code
+RUN virtualenv --python python3 venv
+RUN /bin/bash -c "source venv/bin/activate"
+COPY requirement.txt /code/
+RUN pip install -r requirement.txt
+COPY . /code/
