@@ -4,30 +4,33 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from .models import Post
 
+from .forms import EmailPostForm
 
-# class PostListView(ListView):
-#     queryset = Post.objects.all()
-#     context_object_name = 'posts'
-#     paginate_by = 3
-#     template_name = 'blog/post/list.html'
 
-def post_list(request):
-    # To fetch all the records form posts tables
-    all_posts = Post.objects.all()
-    paginator = Paginator(all_posts, 3)
-    page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
+class PostListView(ListView):
+    queryset = Post.objects.all()
+    context_object_name = 'posts'
+    paginate_by = 3
+    template_name = 'blog/post/list.html'
 
-    # Need to render all_posts to template "blog/post/list.html" with request of all_posts
-    return render(request,
-                  'blog/post/list.html',
-                  {'page': page,
-                   'posts': posts})
+
+# def post_list(request):
+#     # To fetch all the records form posts tables
+#     all_posts = Post.objects.all()
+#     paginator = Paginator(all_posts, 3)
+#     page = request.GET.get('page')
+#     try:
+#         posts = paginator.page(page)
+#     except PageNotAnInteger:
+#         posts = paginator.page(1)
+#     except EmptyPage:
+#         posts = paginator.page(paginator.num_pages)
+#
+#     # Need to render all_posts to template "blog/post/list.html" with request of all_posts
+#     return render(request,
+#                   'blog/post/list.html',
+#                   {'page': page,
+#                    'posts': posts})
 
 
 def post_detail(request, year, month, day, post):
@@ -41,3 +44,22 @@ def post_detail(request, year, month, day, post):
                   {'post': post})
 
 
+def post_share(request, post_id):
+    post = get_object_or_404(Post, id=post_id, status='publish')
+
+    if request.method == 'POST':
+        # Creation of form object
+        form = EmailPostForm(request.POST)
+        # Form validation check
+        if form.is_valid():
+            cd = form.cleaned_data  # for form save with validation
+            print("FORM is saving.................")
+
+    else:
+        form = EmailPostForm()
+    return render(request,
+                  'blog/post/share.html',
+                  {'post': post,
+                   'form': form})
+
+    # Cross Site Resource Forgery for HTTP POST
