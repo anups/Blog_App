@@ -4,6 +4,12 @@
 
 {% block content %}
     <h1>Share "{{ post.title }}" by email</h1>
+    {% for fields in form %}
+        <div>
+            {{ fields.errors }}
+            {{ fields.label_tag }} {{field}}
+        </div>
+    {% endfor %}
     <form action="." method="post">
         {{ form.as_p }}
         {% csrf_token %}
