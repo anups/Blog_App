@@ -41,20 +41,18 @@ def post_detail(request, year, month, day, post):
                              publish__day=day)
 
     comments = post.comments.filter(active=True)
-    print("========comments=======", comments)
     new_comment = None
-    print("=======Request Method======", request.method)
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST)
-        print("Django Form validation=================")
         if comment_form.is_valid():
+            # THIS WILL CREATE THE NEW_COMMENT AS AN OBJECT BUT NEW_COMMENT WILL NOT SVAED IN TABLE
             new_comment = comment_form.save(commit=False)
+            # THIS WILL CREATE THE NEW_COMMENT AS AN OBJECT BUT NEW_COMMENT WILL BE SVAED IN TABLE
+            # new_comment = comment_form.save()
             new_comment.post = post
             new_comment.save()
-            print("Saved new comment")
     else:
         comment_form = CommentForm()
-        print("======Comment Form has been created", comment_form)
     return render(request,
                   'blog/post/detail.html',
                   {'post': post,

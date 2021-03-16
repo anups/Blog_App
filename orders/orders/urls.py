@@ -18,7 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('blog/', include('blog.urls', namespace='blog'))
-
-    # add the routing mechanism for stock_app url
+    path('blog/', include('blog.urls', namespace='blog')),
+    path('account/', include('account.urls', namespace='account')),
 ]
