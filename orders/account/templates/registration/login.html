@@ -1,0 +1,21 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+    <h1> LogIn Form</h1>
+    {% if form.errors %}
+        <p>Your username and password did not match</p>
+    {% else %}
+        <h2>Please use your correct login credentials to enter to Dashboard</h2>
+    {% endif %}
+    <div class="login-form">
+        <form action="#" method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="hidden" name="text" value="{{ next }}"/>
+            <!-- Above line of code is the optional part where we can mention the routing url after successful login -->
+            <!-- In case, if dev has used "LOGIN_REDIRECT_URL" constant in the settings.py, then after successful login -->
+            <p><input type="submit" value="Log-In"></p>
+        </form>
+    </div>
+{% endblock %}

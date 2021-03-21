@@ -2,11 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Account Profile Application</title>
+    <title>Shopping Cart Application</title>
 </head>
 <body>
 
     <div id="header">
+            <span>Logo</span>
+            {% if request.user.is_authenticated %}
+                <li>
+                    <a href="/account/dashboard">My Dashboard</a>
+                </li>
+                <li>
+                    <a href="/account/password_change">Change Password</a>
+                </li>
+            {% endif %}
+
+            <span class="user">
+            {% if request.user.is_authenticated %}
+                Hello {{ request.user.first_name }},
+                    <a href="/account/logout">Logout</a>
+            {% else %}
+                <a href="/account/login">Sign In</a>
+                <a href="/account/register">Sign Up</a>
+            {% endif %}
+        </span>
 
     </div>
 
