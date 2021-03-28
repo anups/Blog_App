@@ -4,5 +4,12 @@
 
 {% block content %}
     <h1>Dashboard</h1>
-    <p1>Welcome to your dashboard</p1>
+
+    {% with total_images_created=request.user.images_created.count %}
+        <p>Welcome to your dashboard. You have bookmarked {{ total_images_created }} image {{ total_images_created|pluralize }}.</p>
+    {% endwith %}
+
+    <p>Drag the following buttons to your bookmarks toolbar to bookmark images from other websites --> <a href="#" class="button">Bookmark It</a></p>
+
+    <p>You can also <a href="#">Edit your profile</a> OR <a href="/account/password_change">Change Your Password</a></p>
 {% endblock %}
